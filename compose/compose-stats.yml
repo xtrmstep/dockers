@@ -1,0 +1,53 @@
+version: '3.0'
+services:
+
+  grafana:
+    image: grafana/grafana:7.5.7
+    container_name: grafana
+    ports:
+      - "${PORT_GRAFANA}:3000"
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,petrslavotinek-carpetplot-panel,savantly-heatmap-panel,agenty-flowcharting-panel,natel-plotly-panel,flant-statusmap-panel,vonage-status-panel
+    # volumes:
+    #   - "${LOCAL_DOCKER_VOLUMES}${DATA_GRAFANA}:/var/lib/grafana"
+    depends_on:
+      - influx
+      - telegraf
+
+  influx:
+    image: influxdb:1.8.6-alpine  # using this version because telegraf cannot connect to v2+ of influxdb (error bad request and unauthorized)
+    container_name: influx
+    # volumes:
+    #   - "${LOCAL_DOCKER_VOLUMES}${DATA_INFLUX}:/var/lib/influxdb"
+    environment:
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin123456
+      - DOCKER_INFLUXDB_INIT_ORG=DataInsights
+      - DOCKER_INFLUXDB_INIT_BUCKET=sys
+    ports:
+      - "8086:8086"
+
+  telegraf:
+    image: telegraf:1.18.3-alpine
+    container_name: telegraf
+    ports:
+      - "${PORT_STATSD}:8125/udp"
+    volumes:
+      - "./telegraf.conf:/etc/telegraf/telegraf.conf:ro"
+    depends_on:
+      - influx
+
+  chronograf:
+    image: chronograf:1.8.8-alpine
+    container_name: chronograf
+    ports:
+      - "${PORT_CHRONOGRAF}:8888"
+    # volumes:
+    #   - "${LOCAL_DOCKER_VOLUMES}${DATA_CHRONOGRAF}:/var/lib/chronograf"
+    depends_on:
+      - influx
+      
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

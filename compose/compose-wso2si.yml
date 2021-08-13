@@ -1,0 +1,28 @@
+version: '2'
+services:
+  wso2si:
+    image: wso2/streaming-integrator:1.0.0    
+    #image: wso2/wso2si:1.0.0
+    ports:
+      - "7070:7070"
+      - "7370:7370"
+      - "7443:7443"
+      - "7611:7611"
+      - "7614:7614"
+      - "7711:7711"
+      - "7714:7714"
+      - "9090:9090"
+      - "9390:9390"
+      - "9443:9443"
+      - "9612:9612"
+      - "9614:9614"
+      - "9712:9712"
+      - "9714:9714"
+      - "9743:9743"
+    volumes:
+      - /tmp/siddhi/apps:/apps
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

@@ -1,0 +1,30 @@
+version: '2'
+services:
+
+  pulsar:
+    image: ${IMAGE_PULSAR}
+    restart: always
+    container_name: pulsar
+    ports:
+      - "${PORT_PULSAR_DASHBOARD}:80"
+      - "${PORT_PULSAR_API}:8080"
+      - "${PORT_PULSAR_SERVICE}:6650"
+    # volumes:
+    #   - "${LOCAL_DOCKER_VOLUMES}${DATA_PULSAR}:/pulsar/data"
+
+  pulsar-manager:
+    image: ${IMAGE_PULSAR_MANAGER}
+    restart: always
+    container_name: pulsar-manager
+    ports:
+      - "${PORT_PULSAR_MANAGER_WEB}:9527"
+      - "${PORT_PULSAR_MANAGER}:7750"
+    environment:
+      - SPRING_CONFIGURATION_FILE=/pulsar-manager/pulsar-manager/application.properties
+    depends_on:
+      - pulsar
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

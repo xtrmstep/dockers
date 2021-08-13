@@ -1,0 +1,24 @@
+version: '2'
+services:
+
+  redis:
+    restart: always
+    image: ${IMAGE_REDIS}
+    container_name: redis
+
+  redisinsight:
+    restart: always
+    image: ${IMAGE_REDISINSIGHT}
+    container_name: redisinsight
+    ports:
+      - "${PORT_REDISINSIGHT}:8001"
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_REDISINSIGHT}:/db"
+    depends_on: 
+      - redis
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
+

@@ -1,0 +1,30 @@
+version: '2'
+services:
+
+  mongodb:
+    restart: always
+    image: ${IMAGE_MONGO}
+    container_name: mongodb
+    user: root
+    command: mongod
+    ports:
+      - "${PORT_MONGO}:27017"
+    environment:
+      - MONGOID_ENV="${MONGO_ID_ENVIRONMENT}"
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_MONGO}:/data/db"
+      # for Windows
+      # - "mongo_data:/data/db"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
+
+### For Windows
+# you need to craete a volume 
+
+# volumes:
+#   mongo_data:
+#     external: true
+

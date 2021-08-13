@@ -1,0 +1,38 @@
+version: '2'
+services:
+
+  siddhi-runner:
+    image: siddhiio/siddhi-runner-alpine:latest
+    container_name: siddhi-runner
+    ports:
+      - "9090:9090"
+      - "8443:9443"
+      - "9712:9712"
+      - "9612:9612"
+      - "7711:7711"
+      - "7611:7611"
+      - "7070:7070"
+      - "7443:7443"
+    volumes:
+      - /tmp/siddhi/apps:/apps
+      
+  siddhi-tooling:
+    restart: always
+    build:
+      context: ../../../components/docker/siddhi-tooling
+      dockerfile: Dockerfile
+    container_name: siddhi-tooling
+    ports:
+      - "9390:9390"
+      - "9743:9743"
+    expose:
+      - "7370"
+      - "7714"
+      - "7614"
+      - "9614"
+      - "9714"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

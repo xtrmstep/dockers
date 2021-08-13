@@ -1,0 +1,38 @@
+version: "2"
+services:
+
+  flagsmith-api:
+    restart: always
+    image: ${IMAGE_FLAGSMITH_API}
+    environment:
+      - DJANGO_ALLOWED_HOSTS="localhost,flagsmith-api"
+      - DATABASE_URL=postgresql://postgres:12345@postgre:5432/flagsmith
+      - DJANGO_DB_HOST=postgre
+      - DJANGO_DB_NAME=flagsmith
+      - DJANGO_DB_USER=flagsmith_user
+      - DJANGO_DB_PASSWORD=12345
+      - DJANGO_DB_PORT=5432
+      - REDIS_URL=http://redis/
+      # settings for sending email via sendgrid
+      - SENDGRID_API_KEY=<SET_YOUR_KEY>
+      - SENDER_EMAIL=flagsmith@email.com
+    ports:
+      - "${PORT_FLAGSMITH_API}:8000"
+    container_name: flagsmith-api
+
+  flagsmith-web:
+    restart: always
+    image: ${IMAGE_FLAGSMITH_WEB}
+    container_name: flagsmith-web
+    environment:
+      - API_URL=http://localhost:${PORT_FLAGSMITH_API}/api/v1/
+      - ASSET_URL=http://localhost:${PORT_FLAGSMITH_WEB}/
+    ports:
+      - "${PORT_FLAGSMITH_WEB}:8080"
+    depends_on:
+      - flagsmith-api
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
