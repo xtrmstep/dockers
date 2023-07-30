@@ -1,4 +1,6 @@
-# Docker & Docker-Compose definitions for Applications
+# Docker & Docker-Compose definitions for Open Source Tools
+
+The main idea of this catalog is to provide a set of docker-compose definitions for multiple tools that can be used for development and testing locally. Usage on production is not recommended.
 
 ## Docker Images
 

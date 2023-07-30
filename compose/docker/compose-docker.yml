@@ -1,0 +1,16 @@
+version: '2'
+services:
+
+  docker-registry:
+    restart: always
+    image: registry:2.7.1
+    container_name: docker-registry
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_DOCKER_REGISTRY}:/var/lib/registry"
+    ports:
+      - "5909:5000"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

@@ -1,0 +1,17 @@
+version: '2'
+services:
+
+  portainer:
+    image: portainer/portainer-ce:2.18.3-alpine
+    restart: always
+    container_name: portainer
+    ports:
+      - "5900:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_PORTAINER}:/data"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

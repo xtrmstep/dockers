@@ -1,0 +1,16 @@
+version: '2'
+services:
+
+  jupyter:
+    image: jupyter/scipy-notebook:33add21fab64
+    restart: always
+    container_name: jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_JUPYTER}:/home/jovyan/work"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

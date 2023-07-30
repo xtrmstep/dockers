@@ -1,0 +1,16 @@
+version: '2'
+services:
+
+  jenkins:
+    restart: always
+    image: ${IMAGE_JENKINS}
+    container_name: jenkins
+    ports:
+      - "8500:8080"
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_JENKINS}:/var/jenkins_home"
+      
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

@@ -1,0 +1,47 @@
+{
+    "mongo_databot": {
+        "conn_type": "mongo",
+        "description": "",
+        "host": "mongodb_1:27017,mongodb_2:27018,mongodb_3:27019",
+        "login": "databot_user",
+        "password": "12345",
+        "schema": "databot",
+        "extra": "{ \"authSource\": \"admin\" }"
+    },
+    "mongo_octobot": {
+        "conn_type": "mongo",
+        "description": "",
+        "host": "mongodb_1:27017,mongodb_2:27018,mongodb_3:27019",
+        "login": "databot_user",
+        "password": "12345",
+        "schema": "octobot",
+        "extra": "{ \"authSource\": \"admin\" }"
+    },
+    "mongo_temp_storage": {
+        "conn_type": "mongo",
+        "description": "",
+        "host": "mongodb_1:27017,mongodb_2:27018,mongodb_3:27019",
+        "login": "airflow_user",
+        "password": "12345",
+        "schema": "temp_data",
+        "extra": "{ \"authSource\": \"admin\", \"replicaSet\": \"mdb\", \"readPreference\": \"secondaryPreferred\" }"
+    },
+    "mongo_databot_e2e": {
+        "conn_type": "mongo",
+        "description": "",
+        "host": "mongodb_1:27017,mongodb_2:27018,mongodb_3:27019",
+        "login": "databot_user",
+        "password": "12345",
+        "schema": "databot",
+        "extra": "{ \"authSource\": \"admin\" }"
+    },
+    "databot_mongo_rom_e2e": {
+        "conn_type": "mongo",
+        "description": "",
+        "host": "mongodb_1:27017,mongodb_2:27018,mongodb_3:27019",
+        "login": "databot_user",
+        "password": "12345",
+        "schema": "databot",
+        "extra": "{ \"authSource\": \"admin\" }"
+    }    
+}

@@ -1,0 +1,26 @@
+psycopg2-binary
+ipython
+pandas
+matplotlib
+ipykernel
+apache-airflow[docker,postgres,mongo,mssql,statsd]
+google-cloud-storage
+gsutil
+google-cloud-bigquery
+flask_bcrypt
+docker
+redis
+kafka-python
+simplejson
+asyncio
+aiohttp
+sqlalchemy < 1.4.0 # required because without it Airflow will have error
+anyio
+apache-airflow[docker,mssql,mongo,postgres]
+google-cloud-storage
+google-cloud-bigquery
+fsspec
+pulsar-client
+numpy
+pandas
+fastavro

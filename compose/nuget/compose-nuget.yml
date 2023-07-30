@@ -1,0 +1,22 @@
+version: '2'
+services:
+
+  nuget-server:
+    image: loicsharma/baget:latest
+    container_name: nuget-server
+    ports:
+      - "5800:80"
+    environment:
+      ApiKey: '12345'
+      Storage__Type: 'FileSystem'
+      Storage__Path: '/var/baget/packages'
+      Database__Type: 'Sqlite'
+      Database__ConnectionString: 'Data Source=/var/baget/baget.db'
+      Search__Type: 'Database'
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_NUGET_SERVER}:/var/baget"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
