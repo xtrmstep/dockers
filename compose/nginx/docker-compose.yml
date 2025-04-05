@@ -1,0 +1,19 @@
+version: '2'
+services:
+
+  web:
+    build:
+      context: ./image
+      dockerfile: Dockerfile
+    container_name: dockers_web
+    ports:
+      - "8888:80"
+      - "3443:443"
+    # volumes:
+    #   - /tmp/config/web/nginx:/etc/nginx
+    #   - /tmp/config/web/ssl:/etc/ssl/private
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

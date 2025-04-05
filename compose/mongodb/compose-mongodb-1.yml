@@ -1,0 +1,29 @@
+version: '2'
+services:
+
+  mongodb_standalone:
+    restart: always
+    image: mongo:4.4.2
+    container_name: mongodb_standalone
+    user: root
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGOID_ENV="local"
+    volumes:
+      # - "${LOCAL_DOCKER_VOLUMES}${DATA_MONGO}:/data/db"
+      # for Windows
+      - "mongo_data:/data/db"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
+
+## For Windows
+# you need to craete a volume 
+
+volumes:
+  mongo_data:
+    external: true
+

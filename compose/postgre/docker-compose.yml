@@ -1,0 +1,47 @@
+version: '2'
+services:
+
+  postgre:
+    restart: always
+    build:
+        context: ./image
+        dockerfile: Dockerfile
+    container_name: postgre
+    user: root
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+      - "postgres_logs:/var/log/postgresql"
+    ports:
+      - "5432:5432"
+    command:
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgresql/postgresql.conf"
+
+  pgadmin4:
+    restart: always
+    image: dpage/pgadmin4:9.2
+    container_name: pgadmin4
+    user: root
+    ports:
+      - "5454:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=default@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes: 
+      - "pgadmin_data:/var/lib/pgadmin"
+    depends_on: 
+      - postgre
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
+
+volumes:
+  postgres_data:
+    external: true
+  postgres_logs:
+    external: true
+  pgadmin_data:
+    external: true

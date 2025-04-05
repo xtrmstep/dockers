@@ -1,0 +1,39 @@
+version: '2'
+services:
+
+  pulsar:
+    image: apachepulsar/pulsar-standalone:2.7.1
+    restart: always
+    container_name: pulsar
+    ports:
+      - "9526:80"
+      - "8080:8080"
+      - "6650:6650"
+    # volumes:
+    #   - "${LOCAL_DOCKER_VOLUMES}${DATA_PULSAR}:/pulsar/data"
+
+  pulsar-manager:
+    image: apachepulsar/pulsar-manager:v0.2.0
+    restart: always
+    container_name: pulsar-manager
+    ports:
+      - "9527:9527"
+      - "7750:7750"
+    environment:
+      - SPRING_CONFIGURATION_FILE=/pulsar-manager/pulsar-manager/application.properties
+    depends_on:
+      - pulsar
+
+  pulsar-2:
+    image: apachepulsar/pulsar-standalone:2.7.1
+    restart: always
+    container_name: pulsar-2
+    ports:
+      - "9536:80"
+      - "8090:8080"
+      - "6660:6650"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

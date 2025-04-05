@@ -1,0 +1,22 @@
+version: '2'
+services:
+
+  metabase:
+    restart: always
+    image: metabase/metabase:v0.54.1.4
+    container_name: metabase
+    environment:
+      - MB_DB_FILE=/metabase-data/metabase.db
+    ports:
+      - "3030:3000"
+    volumes:
+      - "metabase_data:/metabase-data"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
+
+volumes:
+  metabase_data:
+    external: true

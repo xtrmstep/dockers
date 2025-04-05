@@ -1,0 +1,24 @@
+version: '2'
+services:
+
+  redis:
+    restart: always
+    image: redis:6.2.6-alpine
+    container_name: redis
+
+  redisinsight:
+    restart: always
+    image: redislabs/redisinsight:1.11.0
+    container_name: redisinsight
+    ports:
+      - "8081:8001"
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_REDISINSIGHT}:/db"
+    depends_on: 
+      - redis
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
+

@@ -1,0 +1,62 @@
+version: '2'
+services:
+
+  mongodb_1:
+    restart: always
+    image: mongo:4.4.2
+    container_name: mongodb_1
+    user: root
+    command: mongod --replSet rs_local --bind_ip_all
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGOID_ENV="local"
+    volumes:
+      # - "${LOCAL_DOCKER_VOLUMES}${DATA_MONGO}:/data/db"
+      # for Windows
+      - "mongo_data_1:/data/db"
+  
+  mongodb_2:
+    restart: always
+    image: mongo:4.4.2
+    container_name: mongodb_2
+    user: root
+    command: mongod --replSet rs_local --bind_ip_all
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGOID_ENV="local"
+    volumes:
+      # - "${LOCAL_DOCKER_VOLUMES}${DATA_MONGO_2}:/data/db"
+      - "mongo_data_2:/data/db"
+
+  mongodb_3:
+    restart: always
+    image: mongo:4.4.2
+    container_name: mongodb_3
+    user: root
+    command: mongod --replSet rs_local --bind_ip_all
+    ports:
+      - "27019:27017"
+    environment:
+      - MONGOID_ENV="local"
+    volumes:
+      # - "${LOCAL_DOCKER_VOLUMES}${DATA_MONGO_3}:/data/db"
+      - "mongo_data_3:/data/db"
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
+
+## For Windows
+# you need to craete a volume 
+
+volumes:
+  mongo_data_1:
+    external: true
+  mongo_data_2:
+    external: true
+  mongo_data_3:
+    external: true
+

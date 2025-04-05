@@ -1,0 +1,24 @@
+version: '2'
+services:
+
+  mssql-server:
+    restart: always
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: mssql-server
+    environment:
+      - ACCEPT_EULA="Y"
+      - SA_PASSWORD="${SA_PASSWORD}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_SQLSERVER}:/var/opt/mssql/data"
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_SQLSERVER_LOGS}:/var/opt/mssql/log"
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "${SA_PASSWORD}", "-Q", "select 1"]
+      interval: 10s
+      retries: 10
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

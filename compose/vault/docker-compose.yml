@@ -1,0 +1,22 @@
+version: '2'
+services:
+
+  vault:
+    image: vault:1.5.4
+    container_name: vault
+    ports:
+      - "8200:8200"
+    restart: always
+    volumes:
+      - "${LOCAL_DOCKER_VOLUMES}${DATA_VAULT}:/vault"
+      - ./vault-config.json:/vault/config/vault.json
+    environment:
+      - VAULT_ADDR=http://127.0.0.1:8200
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/vault.json
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks

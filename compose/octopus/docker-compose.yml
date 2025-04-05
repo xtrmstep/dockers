@@ -1,0 +1,41 @@
+version: '3'
+services:
+
+  octopus-server:
+    image: octopusdeploy/octopusdeploy:2020.6.5046
+    container_name: octopus-server
+    privileged: ${OCTOPUS_PRIVILEGED}
+    user: ${OCTOPUS_USER}
+    environment:
+      - ACCEPT_EULA=Y
+      - OCTOPUS_SERVER_NODE_NAME=octopus-server
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=Qwerty~123
+      - ADMIN_EMAIL=admin@email.com  # set the actual value
+      - OCTOPUS_SERVER_BASE64_LICENSE=
+      - MASTER_KEY=${OCTOPUS_MASTER_KEY}
+      - ADMIN_API_KEY=
+      - DISABLE_DIND=Y
+    ports:
+      - 8080:8080
+      - 11111:10943
+    volumes:
+      - octopus_repository:/repository
+      - octopus_artifacts:/artifacts
+      - octopus_taskLogs:/taskLogs
+      - octopus_cache:/cache
+      - octopus_import:/import
+
+volumes:
+  octopus_repository:
+  octopus_artifacts:
+  octopus_taskLogs:
+  octopus_cache:
+  octopus_import:
+  octopus_sqlvolume:
+
+networks:
+  default:
+    external:
+      name: local-sandbox-networks
